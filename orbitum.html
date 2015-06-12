@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Orbitum API</title>
+    <meta charset="utf-8"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.16/angular.min.js"></script>
+    <script type="text/javascript" src="js/controllers.js"></script>
+</head>
+<body ng-app="orbitumApp">
+<div ng-controller="OperatorsController">
+    <button class="btn btn-primary" ng-disabled="isLoading" ng-click="getOperators()" ng-hide="operatorsCount">Получить текущих операторов</button>
+
+    <div ng-show="operatorsCount">
+        <p>Количество операторов: <span class="badge">{{operatorsCount}}</span></p>
+        Получить значения <button class="btn btn-default" ng-disabled="isLoading" ng-click="getDataAsync()">асинхронно</button>
+        <button class="btn btn-default" ng-disabled="isLoading" ng-click="getDataSync()">синхронно</button>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th class="col-md-3">Оператор #</th>
+                    <th class="col-md-3">Значение</th>
+                    <th class="col-md-3">&nbsp;</th>
+                    <th class="col-md-3">&nbsp;</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="(key, operator) in operators">
+                    <td>{{operator.id}}</td>
+                    <td><input ng-model="operator.value" ng-hide="operator.value===undefined" /></td>
+                    <td>
+                        <button class="btn btn-success" ng-disabled="isLoading" ng-click="setValue(operator.id)" ng-hide="operator.value===undefined">Сохранить</button>
+                    </td>
+                    <td><span class="text-danger" ng-show="errors[operator.id]===true">Сервер занят, попробуйте ещё раз.</span></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>
