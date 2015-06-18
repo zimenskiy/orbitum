@@ -50,15 +50,11 @@ angular.module('orbitumApp', [])
 
             Object.keys($scope.operators).reduce(function (lastPromise, operatorKey) {
                 return lastPromise.then(function () {
-                    var deferred = $q.defer();
                     $scope.isLoading++;
-                    $http.get(url, {params: {act: 'getValue', operator: operatorKey}}).success(function (data) {
+                    return $http.get(url, {params: {act: 'getValue', operator: operatorKey}}).success(function (data) {
                         $scope.isLoading--;
                         $scope.operators[operatorKey].value = data.value;
-                        deferred.resolve(data);
                     });
-
-                    return deferred.promise;
                 })
             }, deferred.promise);
         };
